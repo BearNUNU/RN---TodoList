@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import TodoListPresenter from './TodoListPresenter';
+import {Text} from 'react-native';
 
 const TodoListContainer = () => {
+  const [addText, setAddText] = useState<string>('');
+  const onPressAddBtn = () => {
+    setAddText('');
+  };
   return (
     <>
-      <TodoListPresenter />;
+      <TodoListPresenter addText={addText} setAddText={setAddText} />
     </>
   );
 };
