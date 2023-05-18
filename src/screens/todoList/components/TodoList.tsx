@@ -1,11 +1,23 @@
 import React from 'react';
-import {Image} from 'react-native';
+import {Image, ListRenderItem} from 'react-native';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {images} from '../../../assets/images';
 
-const TodoList = () => {
-  const TodoBox = () => {
-    const [checked, setChecked] = React.useState(false);
+interface ITodoList {
+  todoList: {text: string; completed: boolean}[];
+  onPressDeleteBtn: (index: number) => void;
+  toggleCompletion: (index: number) => void;
+}
+
+const TodoList: React.FC<ITodoList> = ({
+  todoList,
+  onPressDeleteBtn,
+  toggleCompletion,
+}) => {
+  const TodoBox: ListRenderItem<{text: string; completed: boolean}> = ({
+    item,
+    index,
+  }) => {
     return (
       <View
         style={{
@@ -21,19 +33,24 @@ const TodoList = () => {
             marginLeft: 10,
             marginRight: 20,
           }}
-          onPress={() => setChecked(!checked)}>
+          onPress={() => toggleCompletion(index)}>
           <Image
-            source={checked ? images.checked : images.notchecked}
+            source={item.completed ? images.checked : images.notchecked}
             resizeMode="contain"
             style={{height: 30, width: 30}}
           />
         </TouchableOpacity>
         <View style={{flex: 9}}>
-          <Text style={{textDecorationLine: checked ? 'line-through' : 'none'}}>
-            할일
+          <Text
+            style={{
+              textDecorationLine: item.completed ? 'line-through' : 'none',
+            }}>
+            {item.text}
           </Text>
         </View>
-        <TouchableOpacity style={{flex: 1}}>
+        <TouchableOpacity
+          style={{flex: 1}}
+          onPress={() => onPressDeleteBtn(index)}>
           <Image source={images.delete} style={{width: 30, height: 30}} />
         </TouchableOpacity>
       </View>
@@ -42,7 +59,11 @@ const TodoList = () => {
 
   return (
     <View style={{flex: 1}}>
-      <TodoBox />
+      <FlatList
+        data={todoList}
+        renderItem={TodoBox}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
   );
 };

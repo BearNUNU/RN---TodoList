@@ -7,17 +7,33 @@ import TodoList from './components/TodoList';
 interface ITodoListPresenter {
   addText: string;
   setAddText: React.Dispatch<React.SetStateAction<string>>;
+  onPressAddBtn: () => void;
+  onPressDeleteBtn: (index: number) => void;
+  todoList: {text: string; completed: boolean}[];
+  toggleCompletion: (index: number) => void;
 }
 
 const TodoListPresenter: React.FC<ITodoListPresenter> = ({
   addText,
   setAddText,
+  onPressAddBtn,
+  onPressDeleteBtn,
+  toggleCompletion,
+  todoList,
 }) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <DateHead />
-      <TodoList />
-      <AddTodo addText={addText} setAddText={setAddText} />
+      <TodoList
+        todoList={todoList}
+        onPressDeleteBtn={onPressDeleteBtn}
+        toggleCompletion={toggleCompletion}
+      />
+      <AddTodo
+        addText={addText}
+        setAddText={setAddText}
+        onPressAddBtn={onPressAddBtn}
+      />
     </SafeAreaView>
   );
 };

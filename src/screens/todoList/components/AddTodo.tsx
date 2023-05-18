@@ -5,9 +5,10 @@ import {commonStyles} from '../styles';
 interface IAddTodo {
   addText: string;
   setAddText: React.Dispatch<React.SetStateAction<string>>;
+  onPressAddBtn: () => void;
 }
 
-const AddTodo: React.FC<IAddTodo> = ({addText, setAddText}) => {
+const AddTodo: React.FC<IAddTodo> = ({addText, setAddText, onPressAddBtn}) => {
   return (
     <View
       style={{
@@ -25,7 +26,7 @@ const AddTodo: React.FC<IAddTodo> = ({addText, setAddText}) => {
         {addText}
       </TextInput>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={onPressAddBtn}
         style={{
           flex: 2,
           justifyContent: 'center',
